@@ -1,0 +1,17 @@
+.start-recognition-container {
+    padding: 20px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #c82333;
+  }
