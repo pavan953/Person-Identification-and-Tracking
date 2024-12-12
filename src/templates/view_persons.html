@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Persons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            backdrop-filter: transparency(14.5s);
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            font-size: large;
+            text-align: center;
+            width: 500px;
+        }
+        h1 {
+            color: black;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .person {
+            margin-bottom: 20px;
+        }
+        .person img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .person button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .person button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Persons</h1>
+        <div id="persons-list"></div>
+    </div>
+
+    <script>
+        async function fetchPersons() {
+            const response = await fetch('/api/persons');
+            const persons = await response.json();
+            const personsList = document.getElementById('persons-list');
+            personsList.innerHTML = '';
+            persons.forEach(person => {
+                const personDiv = document.createElement('div');
+                personDiv.className = 'person';
+                const img = document.createElement('img');
+                img.src = 'data:image/jpeg;base64,' + person[3];
+                const name = document.createElement('p');
+                name.textContent = person[1];
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = async () => {
+                    await fetch('/api/delete_person', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ usn: person[0] })
+                    });
+                    fetchPersons();
+                };
+                personDiv.appendChild(img);
+                personDiv.appendChild(name);
+                personDiv.appendChild(deleteButton);
+                personsList.appendChild(personDiv);
+            });
+        }
+
+        fetchPersons();
+    </script>
+</body>
+</html>

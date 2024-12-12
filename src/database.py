@@ -179,3 +179,98 @@ def update_tracking(usn, name, face_image):
 create_table()
 create_tracking_table()
 # add_columns()
+
+# import sqlite3
+# from datetime import datetime
+# import base64
+
+# def create_connection():
+#     return sqlite3.connect('person_database.db')
+
+# def create_table():
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('''
+#         CREATE TABLE IF NOT EXISTS persons (
+#             usn TEXT PRIMARY KEY,
+#             name TEXT,
+#             face_encoding BLOB,
+#             last_recognized TEXT,
+#             face_image BLOB
+#         )
+#     ''')
+#     conn.commit()
+#     conn.close()
+
+# def add_person(usn, name, face_encoding, face_image):
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('''
+#         INSERT INTO persons (usn, name, face_encoding, last_recognized, face_image)
+#         VALUES (?, ?, ?, ?, ?)
+#     ''', (usn, name, face_encoding, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), face_image))
+#     conn.commit()
+#     conn.close()
+
+# def update_last_recognized(usn, face_image):
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('''
+#         UPDATE persons
+#         SET last_recognized = ?, face_image = ?
+#         WHERE usn = ?
+#     ''', (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), face_image, usn))
+#     conn.commit()
+#     conn.close()
+
+# def get_all_persons():
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('SELECT usn, name, face_encoding, face_image FROM persons')
+#     persons = cursor.fetchall()
+#     conn.close()
+#     # Encode face_image to base64 string
+#     persons = [(usn, name, face_encoding, base64.b64encode(face_image).decode('utf-8')) for usn, name, face_encoding, face_image in persons]
+#     return persons
+
+# def get_person_by_usn(usn):
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('SELECT * FROM persons WHERE usn = ?', (usn,))
+#     person = cursor.fetchone()
+#     conn.close()
+#     return person
+
+# def delete_person(usn):
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('DELETE FROM persons WHERE usn = ?', (usn,))
+#     conn.commit()
+#     conn.close()
+
+# def create_tracking_table():
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('''
+#         CREATE TABLE IF NOT EXISTS tracking (
+#             usn TEXT PRIMARY KEY,
+#             name TEXT,
+#             face_image BLOB,
+#             last_seen TEXT
+#         )
+#     ''')
+#     conn.commit()
+#     conn.close()
+
+# def update_tracking(usn, name, face_image):
+#     conn = create_connection()
+#     cursor = conn.cursor()
+#     cursor.execute('''
+#         INSERT OR REPLACE INTO tracking (usn, name, face_image, last_seen)
+#         VALUES (?, ?, ?, ?)
+#     ''', (usn, name, face_image, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+#     conn.commit()
+#     conn.close()
+
+# create_table()
+# create_tracking_table()
