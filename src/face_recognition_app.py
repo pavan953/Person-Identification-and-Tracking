@@ -293,7 +293,7 @@
 import cv2
 import face_recognition
 import numpy as np
-from database import get_all_persons, update_last_recognized, update_tracking
+from database import get_all_persons, add_person, update_last_recognized, update_tracking
 from datetime import datetime
 import sys
 
@@ -312,6 +312,7 @@ def load_known_faces():
     known_face_usns = [person[0] for person in persons]
     known_face_names = [person[1] for person in persons]
 
+# Load initial known faces
 load_known_faces()
 
 # Get the USN to track from the command line arguments
@@ -346,10 +347,27 @@ while True:
                 face_image = cv2.imencode('.jpg', frame[top:bottom, left:right])[1].tobytes()
                 update_last_recognized(usn, face_image)
                 update_tracking(usn, name, face_image)
+            else:
+                # Handle unknown faces
+                cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+                cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+                font = cv2.FONT_HERSHEY_DUPLEX
+                cv2.putText(frame, "Unknown", (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+                cv2.imshow('Video', frame)
+                cv2.waitKey(1)
+
+                # Add new person to the database
+                print("Unknown face detected. Please provide details:")
+                new_usn = input("Enter the USN for the new face: ")
+                new_name = input("Enter the name for the new face: ")
+                face_image = cv2.imencode('.jpg', frame[top:bottom, left:right])[1].tobytes()
+                add_person(new_usn, new_name, face_encoding.tobytes(), face_image)
+                load_known_faces()
+                continue
 
         # Highlight the detected face
         color = (0, 255, 0) if usn == usn_to_track else (0, 0, 255)
-        label = f"{name} {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}" if usn == usn_to_track else "Unknown"
+        label = f"{name} {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}" if usn != "Unknown" else "Unknown"
         cv2.rectangle(frame, (left, top), (right, bottom), color, 2)
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), color, cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
@@ -367,7 +385,7 @@ while True:
         break
 
 if not found_usn:
-    print("No one found")
+    print(f"No face with USN '{usn_to_track}' was found.")
 
 # Release the video capture and close all windows
 video_capture.release()
