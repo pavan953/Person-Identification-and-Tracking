@@ -65,11 +65,11 @@ while True:
                 cv2.waitKey(1)
 
                 # Add new person to the database
-                print("Unknown face detected. Please provide details:")
-                new_usn = input("Enter the USN for the new face: ")
-                new_name = input("Enter the name for the new face: ")
-                face_image = cv2.imencode('.jpg', frame[top:bottom, left:right])[1].tobytes()
-                add_person(new_usn, new_name, face_encoding.tobytes(), face_image)
+                # print("Unknown face detected. Please provide details:")
+                # new_usn = input("Enter the USN for the new face: ")
+                # new_name = input("Enter the name for the new face: ")
+                # face_image = cv2.imencode('.jpg', frame[top:bottom, left:right])[1].tobytes()
+                # add_person(new_usn, new_name, face_encoding.tobytes(), face_image)
                 load_known_faces()
                 continue
 

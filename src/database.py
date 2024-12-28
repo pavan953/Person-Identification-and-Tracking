@@ -145,6 +145,9 @@ def get_all_persons():
     return persons
 
 def get_person_by_usn(usn):
+    """
+    Retrieve a person from the database by their USN.
+    """
     conn = create_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM persons WHERE usn = ?', (usn,))
@@ -167,12 +170,16 @@ def create_tracking_table():
     conn.close()
 
 def update_tracking(usn, name, face_image):
+    """
+    Update tracking information for a person.
+    """
     conn = create_connection()
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT OR REPLACE INTO tracking (usn, name, face_image, last_seen)
-        VALUES (?, ?, ?, ?)
-    ''', (usn, name, face_image, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        UPDATE persons
+        SET last_recognized = ?, face_image = ?
+        WHERE usn = ?
+    ''', (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), face_image, usn))
     conn.commit()
     conn.close()
 
