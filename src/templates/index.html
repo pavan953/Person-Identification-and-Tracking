@@ -1,186 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Home</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
         }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        50% {
+          background-position: 100% 50%;
         }
-        .container {
-            backdrop-filter: transparency(14.5s);
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            font-size: large;
-            text-align: center;
-            width: 500px;
+        100% {
+          background-position: 0% 50%;
         }
-        h1 {
-            color: black;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        form {
-            margin: 20px 0;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: black;
-            font-weight: bold;
-        }
-        input {
-            width: 470px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            background: white;
-            color: black;
-            font-size: 16px;
-        }
-        button {
-            width: 100%;
-            padding: 10px 20px;
-            background: black;
-            color: white;
-            font-size: large;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #555;
-        }
-        video {
-            width: 100%;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .popup {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-        .popup.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
-            animation: fadein 0.5s, fadeout 0.5s 4.5s;
-        }
+      }
+      .container {
+        backdrop-filter: transparency(14.5s);
+        background: rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        font-size: large;
+        text-align: center;
+        width: 500px;
+      }
+      h1 {
+        color: black;
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      form {
+        margin: 20px 0;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: black;
+        font-weight: bold;
+      }
+      input {
+        width: 470px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background: white;
+        color: black;
+        font-size: 16px;
+      }
+      button {
+        width: 100%;
+        padding: 10px 20px;
+        background: black;
+        color: white;
+        font-size: large;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #555;
+      }
+      video {
+        width: 100%;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      .popup {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 17px;
+      }
+      .popup.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+        animation: fadein 0.5s, fadeout 0.5s 4.5s;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Welcome to the Face Recognition App</h1>
-        <form id="add-person-form">
-            <label for="usn">USN:</label>
-            <input type="text" id="usn" name="usn" required>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <button type="submit">Add Person</button>
+      <h1>Welcome to the Face Recognition App</h1>
+      <form id="add-person-form">
+        <label for="usn">USN:</label>
+        <input type="text" id="usn" name="usn" required />
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+        <button type="submit">Add Person</button>
+      </form>
+      <form id="start-recognition-form">
+        <button type="submit">Start Face Recognition</button>
+      </form>
+      <form id="stop-recognition-form">
+        <button type="submit">Stop Face Recognition</button>
+      </form>
+      <div class="dropdown">
+        <form id="track-person-form">
+          <label for="track-usn">Track USN:</label>
+          <input type="text" id="track-usn" name="track-usn" required />
+          <button type="submit">Track Person</button>
         </form>
-        <form id="start-recognition-form">
-            <button type="submit">Start Face Recognition</button>
-        </form>
-        <form id="stop-recognition-form">
-            <button type="submit">Stop Face Recognition</button>
-        </form>
-        <div class="dropdown">
-            <form id="track-person-form">
-                <label for="track-usn">Track USN:</label>
-                <input type="text" id="track-usn" name="track-usn" required>
-                <button type="submit">Track Person</button>
-            </form>
-            <div class="im" id="tracking-result"></div>
-        </div>
+        <div class="im" id="tracking-result"></div>
+      </div>
     </div>
 
     <div id="popup" class="popup">No data found</div>
 
     <script>
-        document.getElementById('add-person-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const usn = document.getElementById('usn').value;
-            const name = document.getElementById('name').value;
-            const response = await fetch('/api/add_person', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ usn, name })
-            });
-            const result = await response.json();
-            showPopup(result.message);
+      document
+        .getElementById("add-person-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const usn = document.getElementById("usn").value;
+          const name = document.getElementById("name").value;
+          const response = await fetch("/api/add_person", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ usn, name }),
+          });
+          const result = await response.json();
+          showPopup(result.message);
         });
 
-        document.getElementById('start-recognition-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const response = await fetch('/api/start_recognition', {
-                method: 'POST'
-            });
-            const result = await response.json();
-            showPopup(result.message);
+      document
+        .getElementById("start-recognition-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const response = await fetch("/api/start_recognition", {
+            method: "POST",
+          });
+          const result = await response.json();
+          showPopup(result.message);
         });
 
-        document.getElementById('stop-recognition-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const response = await fetch('/api/stop_recognition', {
-                method: 'POST'
-            });
-            const result = await response.json();
-            showPopup(result.message);
+      document
+        .getElementById("stop-recognition-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const response = await fetch("/api/stop_recognition", {
+            method: "POST",
+          });
+          const result = await response.json();
+          showPopup(result.message);
         });
 
-        document.getElementById('track-person-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const usn = document.getElementById('track-usn').value;
-            const response = await fetch('/api/track_person', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ usn })
-            });
-            const result = await response.json();
-            showPopup(result.message);
+      document
+        .getElementById("track-person-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const usn = document.getElementById("track-usn").value;
+          const response = await fetch("/api/track_person", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ usn }),
+          });
+          const result = await response.json();
+          showPopup(result.message);
         });
 
-        function showPopup(message) {
-            const popup = document.getElementById("popup");
-            popup.textContent = message;
-            popup.className = "popup show";
-            setTimeout(function() {
-                popup.className = popup.className.replace("show", "");
-            }, 5000);
-        }
+      function showPopup(message) {
+        const popup = document.getElementById("popup");
+        popup.textContent = message;
+        popup.className = "popup show";
+        setTimeout(function () {
+          popup.className = popup.className.replace("show", "");
+        }, 5000);
+      }
     </script>
-</body>
+  </body>
 </html>
 <!-- <!DOCTYPE html>
 <html lang="en">
