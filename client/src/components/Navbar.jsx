@@ -27,7 +27,7 @@ const Navbar = () => {
             Train
           </Button> */}
           <Button color="inherit" onClick={() => navigate('/recognize')}>
-            Recognize
+            Recognition
           </Button>
         </Box>
       </Toolbar>

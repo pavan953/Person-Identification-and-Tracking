@@ -8,6 +8,7 @@ import PersonList from './pages/PersonList';
 import TrainingStatus from './pages/TrainingStatus';
 import Training from './pages/Training';
 import 'react-toastify/dist/ReactToastify.css';
+import Recognize from './pages/Recognize';
 
 function App() {
   return (
