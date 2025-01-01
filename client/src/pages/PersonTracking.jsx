@@ -7,13 +7,20 @@ const PersonTracking = () => {
   const [usn, setUsn] = useState('');
 
   const handleTrack = async () => {
-    try {
-      const response = await axiosInstance.post('/track_person', { usn: usn });
-      console.log(response);
+    if (!usn) {
+      toast.error("Please enter a USN");
+      return;
+    }
 
-      toast.success('Tracking started');
+    try {
+      const res = await axiosInstance.post('/track_person', { usn });
+      toast.success("Started tracking person");
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Tracking failed');
+      if (error.response?.status === 404) {
+        toast.error("Person not found in database");
+      } else {
+        toast.error(error.response?.data?.error || "Failed to start tracking");
+      }
     }
   };
 
