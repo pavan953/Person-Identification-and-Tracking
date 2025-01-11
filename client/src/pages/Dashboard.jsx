@@ -2,6 +2,7 @@ import { Grid, Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../helper/axiosInstance';
+import PersonList from './PersonList';
 
 const Dashboard = () => {
   const [persons, setPersons] = useState(0);
@@ -29,6 +30,7 @@ const Dashboard = () => {
         </Card>
       </Grid>
       {/* Add more stats cards */}
+      <PersonList />
     </Grid>
   );
 };

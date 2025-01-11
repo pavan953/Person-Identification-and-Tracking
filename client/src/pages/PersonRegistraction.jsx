@@ -41,7 +41,7 @@ const PersonRegistration = () => {
         image: capturedImage
       });
 
-      if (response.data.success) {
+      if (response.data) {
         toast.success('Person registered successfully!');
         setFormData({ name: '', usn: '' });
         setCapturedImage(null);

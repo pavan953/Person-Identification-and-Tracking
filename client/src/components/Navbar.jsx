@@ -17,9 +17,6 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate('/track')}>
             Track
           </Button>
-          <Button color="inherit" onClick={() => navigate('/persons')}>
-            Persons
-          </Button>
           {/* <Button color="inherit" onClick={() => navigate('/training-status')}>
             Training
           </Button>

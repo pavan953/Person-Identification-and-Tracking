@@ -10,7 +10,7 @@ from database import add_tracking_event
 
 # List of camera IP addresses
 camera_ips = [
-    "http://192.168.104.167:8080/video",
+    "http://192.168.90.41:8080/video",
 ]
 
 # Load known face encodings and names from the database

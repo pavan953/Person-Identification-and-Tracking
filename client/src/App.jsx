@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/register" element={<PersonRegistration />} />
         <Route path="/track" element={<PersonTracking />} />
-        <Route path="/persons" element={<PersonList />} />
+        {/* <Route path="/persons" element={<PersonList />} /> */}
         {/* <Route path="/training-status" element={<TrainingStatus />} />
         <Route path="/training" element={<Training />} /> */}
         <Route path='/recognize' element={<Recognize />} />
