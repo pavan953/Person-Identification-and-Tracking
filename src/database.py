@@ -75,6 +75,7 @@ def create_tracking_table():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             usn TEXT NOT NULL,
             camera_id TEXT NOT NULL,
+            face_image BLOB,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (usn) REFERENCES persons(usn)
         )
@@ -96,11 +97,11 @@ def update_tracking(usn, name, face_image):
     conn.commit()
     conn.close()
 
-def add_tracking_event(usn, camera_id):
+def add_tracking_event(usn, camera_id, face_image):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO tracking_events (usn, camera_id) VALUES (?, ?)', 
-                (usn, camera_id))
+    cursor.execute('INSERT INTO tracking_events (usn, camera_id, face_image) VALUES (?, ?, ?)', 
+                (usn, camera_id, face_image))
     conn.commit()
     conn.close()
 
@@ -126,4 +127,3 @@ def get_tracking_history(usn=None):
 
 create_table()
 create_tracking_table()
-# add_columns()

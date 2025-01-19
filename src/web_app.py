@@ -22,7 +22,7 @@ def add_person_route():
     if existing_person:
         return jsonify({"message": "USN already exists in database"}), 400
 
-    video_capture = cv2.VideoCapture(1)
+    video_capture = cv2.VideoCapture(0)
     if not video_capture.isOpened():
         return jsonify({"message": "Failed to access camera"}), 500
 
@@ -80,7 +80,7 @@ def add_person_route():
 def start_recognition():
     global process
     if process is None:
-        process = subprocess.Popen(["python3", "./face_recognition_app.py"])
+        process = subprocess.Popen(["python3", "/Users/bpavankumar/Documents/Web Development/Person-Identification-and-Tracking/src/face_recognition_app.py"])
         return jsonify({"message": "Face recognition started"}), 200
     return jsonify({"message": "Face recognition is already running"}), 400
 
@@ -106,7 +106,7 @@ def track_person():
         
     global process
     if process is None:
-        process = subprocess.Popen(["python3", "./person_tracking.py", usn])
+        process = subprocess.Popen(["python3", "/Users/bpavankumar/Documents/Web Development/Person-Identification-and-Tracking/src/person_tracking.py", usn])
         return jsonify({"message": "Tracking started"}), 200
     return jsonify({"message": "Tracking is already running"}), 400
 

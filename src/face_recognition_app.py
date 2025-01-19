@@ -27,7 +27,7 @@ load_known_faces()
 usn_to_track = sys.argv[1] if len(sys.argv) > 1 else None
 
 # Initialize video capture
-video_capture = cv2.VideoCapture(1)
+video_capture = cv2.VideoCapture(0)
 
 found_usn = False
 
