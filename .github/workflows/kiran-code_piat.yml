@@ -1,5 +1,3 @@
-# Workflow to build and deploy Person-Identification-and-Tracking app to Azure Web App
-
 name: Build and Deploy Person-Identification-and-Tracking App
 
 on:
@@ -25,18 +23,18 @@ jobs:
           node-version: 20.x
 
       - name: Install Frontend Dependencies
-        working-directory: ./client
+        working-directory: ./Person-Identification-and-Tracking/client
         run: npm install
 
       - name: Build Frontend
-        working-directory: ./client
+        working-directory: ./Person-Identification-and-Tracking/client
         run: npm run build
 
       - name: Upload Frontend Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-build
-          path: ./client/build
+          path: ./Person-Identification-and-Tracking/client/build
 
       # Backend (src)
       - name: Set up Python for Backend
@@ -45,7 +43,7 @@ jobs:
           python-version: 3.9
 
       - name: Install Backend Dependencies
-        working-directory: ./src
+        working-directory: ./Person-Identification-and-Tracking/src
         run: |
           python -m venv venv
           source venv/bin/activate
@@ -55,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend-src
-          path: ./src
+          path: ./Person-Identification-and-Tracking/src
 
   deploy:
     runs-on: ubuntu-latest
@@ -93,7 +91,7 @@ jobs:
         with:
           app-name: 'piat-client'
           slot-name: 'Production'
-          package: ./client/build
+          package: ./Person-Identification-and-Tracking/client/build
 
       - name: Deploy Backend to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -101,4 +99,4 @@ jobs:
         with:
           app-name: 'piat-backend'
           slot-name: 'Production'
-          package: ./src
+          package: ./Person-Identification-and-Tracking/src
