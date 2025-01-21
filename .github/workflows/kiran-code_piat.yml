@@ -1,0 +1,102 @@
+name: Build and Deploy Person-Identification-and-Tracking App
+
+on:
+  push:
+    branches:
+      - main
+      - kiran-code
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Frontend (client)
+      - name: Set up Node.js for Frontend
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: Install Frontend Dependencies
+        working-directory: ./Person-Identification-and-Tracking/client
+        run: npm install
+
+      - name: Build Frontend
+        working-directory: ./Person-Identification-and-Tracking/client
+        run: npm run build
+
+      - name: Upload Frontend Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: ./Person-Identification-and-Tracking/client/build
+
+      # Backend (src)
+      - name: Set up Python for Backend
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+
+      - name: Install Backend Dependencies
+        working-directory: ./Person-Identification-and-Tracking/src
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Upload Backend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-src
+          path: ./Person-Identification-and-Tracking/src
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write
+
+    steps:
+      # Download frontend and backend artifacts
+      - name: Download Frontend Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+
+      - name: Download Backend Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-src
+
+      # Login to Azure
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9B70BE5AA2824B2D907F4C44A4B8786C }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F838B78C58D947B59D121FB0C746B670 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1BDBD5A859CE4AA8ACBC2E550721A74C }}
+
+      # Deploy to Azure Web App
+      - name: Deploy Frontend to Azure Web App
+        uses: azure/webapps-deploy@v3
+        id: deploy-frontend
+        with:
+          app-name: 'piat-client'
+          slot-name: 'Production'
+          package: ./Person-Identification-and-Tracking/client/build
+
+      - name: Deploy Backend to Azure Web App
+        uses: azure/webapps-deploy@v3
+        id: deploy-backend
+        with:
+          app-name: 'piat-backend'
+          slot-name: 'Production'
+          package: ./Person-Identification-and-Tracking/src
